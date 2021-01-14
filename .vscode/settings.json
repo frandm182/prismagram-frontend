@@ -1,0 +1,5 @@
+{
+    "typescript.autoClosingTags": false,
+    "javascript.autoClosingTags": false,
+    "typescript.format.enable": false
+}
