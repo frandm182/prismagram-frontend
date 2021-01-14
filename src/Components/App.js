@@ -9,10 +9,8 @@ import AppRouter from './Router';
 const App = () => (
   <ThemeProvider theme={Theme}>
     <ApolloProvider client={client}>
-      <>
       <GlobalStyles />
       <AppRouter isLoggedIn={false}/>
-      </>
     </ApolloProvider>
   </ThemeProvider>);
 
