@@ -2,8 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Input from '../Components/Input';
-import Button from '../Components/Button';
+import Input from '../../Components/Input';
+import Button from '../../Components/Button';
 
 const Wrapper = styled.div`
   min-height: 80vh;
@@ -48,24 +48,20 @@ const Form = styled(Box)`
   }
 `;
 
-export default () => {
-  const [ action, setAction ] = useState('logIn');
-  return (
+export default ({ action, setAction, username, firstName, lastName, email, onLogin }) => (
     <Wrapper>
-      <Form>
+      <Form onSubmit={onLogin}>
         {action === 'logIn' ? (
           <form>
-            <Input placeholder={"Username"} />
-            <Input placeholder={"Password"} />
+            <Input placeholder={"Email"} {...email} type={'email'} />
             <Button text={'Log in'} />
           </form>
         ) : (
           <form>
-            <Input placeholder={"First name"} />
-            <Input placeholder={"Last name"} />
-            <Input placeholder={"Email"} />
-            <Input placeholder={"Username"} />
-            <Input placeholder={"Password"} />
+            <Input placeholder={"First name"} {...firstName} />
+            <Input placeholder={"Last name"} {...lastName} />
+            <Input placeholder={"Email"} {...email} type={'email'} />
+            <Input placeholder={"Username"} {...username} />
             <Button text={'Sign up'} />
           </form>
         )}
@@ -79,10 +75,9 @@ export default () => {
         ) : (
           <>
             Have an account? {' '} 
-            <Link onClick={() => setAction('signIn')}>Log in</Link>
+            <Link onClick={() => setAction('logIn')}>Log in</Link>
           </>
         )}
       </StateChanger>
     </Wrapper>
   );
-}
