@@ -72,8 +72,8 @@ const ME = gql`
 
 const Header = ({ history }) => {
   const search = useInput('');
-  const meQuery = useQuery(ME);
-  console.log(meQuery)
+  const { data } = useQuery(ME);
+  console.log(data)
   const onSearchSubmit = e => {
     e.preventDefault();
     history.push(`/search?term=${search.value}`)
@@ -95,7 +95,11 @@ const Header = ({ history }) => {
         <HeaderColumn>
           <HeaderLink to="/explore"><Compass /></HeaderLink>
           <HeaderLink to="/notifications"><HeartEmpty /></HeaderLink>
-          <HeaderLink to="/username"><User /></HeaderLink>
+          {!(data || {}).me ? (
+            <HeaderLink to="/#"><User /></HeaderLink>
+          ) : (
+            <HeaderLink to={`/${data.me.userName}`}><User /></HeaderLink>
+          )}
         </HeaderColumn>
       </HeaderWrapper>
     </HeaderComponent>
