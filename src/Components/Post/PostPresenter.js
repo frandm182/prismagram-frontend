@@ -11,6 +11,7 @@ const Post = styled.div`
   width: 100%;
   max-width: 600px;
   margin-bottom: 25px;
+  user-select: none;
 `;
 
 const Header = styled.header`
@@ -88,7 +89,17 @@ const Textarea = styled(TextareaAutosize)`
   }
 `;
 
-export default ({ user: { userName, avatar }, location, files, isLiked, likeCount, createdAt, newComment, currentItem } ) => (
+export default ({ 
+  user: { userName, avatar }, 
+  location, 
+  files, 
+  isLiked, 
+  likeCount, 
+  createdAt, 
+  newComment, 
+  currentItem,
+  toggleLike
+}) => (
   <Post>
     <Header>
       <Avatar size='sm' url={avatar} />
@@ -102,7 +113,7 @@ export default ({ user: { userName, avatar }, location, files, isLiked, likeCoun
     </Files>
     <Meta>
       <Buttons>
-        <Button>{isLiked ? <HeartFull /> : <HeartEmpty />}</Button>
+        <Button onClick={toggleLike}>{isLiked ? <HeartFull /> : <HeartEmpty />}</Button>
         <Button><Comment /></Button>
       </Buttons>
       <FatText text={likeCount === 1 ? '1 like' : `${likeCount} likes`} />
