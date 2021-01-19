@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Helmet from 'react-helmet';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 
@@ -61,25 +62,40 @@ export default ({
     <Wrapper>
       <Form>
         {action === 'logIn' && (
-          <form onSubmit={onSubmit}>
-            <Input placeholder={"Email"} {...email} type={'email'} />
-            <Button text={'Log in'} />
-          </form>
+          <>
+            <Helmet>
+              <title>Log In | Prismagram</title>
+            </Helmet>
+            <form onSubmit={onSubmit}>
+              <Input placeholder={"Email"} {...email} type={'email'} />
+              <Button text={'Log in'} />
+            </form>
+          </>
         )} 
         {action === 'confirm' && (
-          <form onSubmit={onSubmit}>
-          <Input placeholder={"Paste your secret"} {...secret} />
-          <Button text={'Confirm'} />
-        </form>
+          <>
+            <Helmet>
+              <title>Confirm secret | Prismagram</title>
+            </Helmet>
+            <form onSubmit={onSubmit}>
+              <Input placeholder={"Paste your secret"} {...secret} />
+              <Button text={'Confirm'} />
+            </form>
+          </>
         )}
         {action === 'signUp' && (
-          <form onSubmit={onSubmit}>
-            <Input placeholder={"First name"} {...firstName} />
-            <Input placeholder={"Last name"} {...lastName} />
-            <Input placeholder={"Email"} {...email} type={'email'} />
-            <Input placeholder={"Username"} {...userName} />
-            <Button text={'Sign up'} />
-          </form>
+          <>
+            <Helmet>
+              <title>Sign up | Prismagram</title>
+            </Helmet>
+            <form onSubmit={onSubmit}>
+              <Input placeholder={"First name"} {...firstName} />
+              <Input placeholder={"Last name"} {...lastName} />
+              <Input placeholder={"Email"} {...email} type={'email'} />
+              <Input placeholder={"Username"} {...userName} />
+              <Button text={'Sign up'} />
+            </form>
+          </>
         )}
       </Form>
       
