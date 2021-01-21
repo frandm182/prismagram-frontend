@@ -44,12 +44,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   min-height: 80vh;
-  margin-top: 100px;
+  margin-top: 130px;
 `;
 
 export default () => {
   const { data, loading } = useQuery(FEED_QUERY);
-  console.log(data?.seeFeed || [].map(post => post), loading);
   data?.seeFeed || [].map(post => { console.log(post)});
   return (
     <Wrapper>

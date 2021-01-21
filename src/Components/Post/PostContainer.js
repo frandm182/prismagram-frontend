@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { useMutation } from 'react-apollo-hooks';
 import useInput from '../../Hooks/useInput';
 import PostPresenter from './PostPresenter';
-import { TOGGLE_LIKE } from './PostQueries';
+import { TOGGLE_LIKE, ADD_COMMENT } from './PostQueries';
+import { toast } from 'react-toastify';
 
 const PostContainer = ({ 
   id, 
@@ -19,24 +20,38 @@ const PostContainer = ({
   const [isLikedS, setIsLiked] = useState(isLiked);
   const [likeCountS, setLikeCount] = useState(likeCount);
   const [currentItem, setCurrentItem] = useState(0);
- 
-  const slide = () => {
-    setTimeout(() => setCurrentItem(currentItem === files.length - 1 ? 0 : currentItem + 1), 3000);
-  };
+  const [selfComments, setSelfComments] = useState([]);
+
+  const slide = () => setTimeout(() => setCurrentItem(currentItem === files.length - 1 ? 0 : currentItem + 1), 3000);
+
   const comment = useInput('');
 
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, { variables: { postId: id } });
-  const [addCommentMutation] = useMutation(TOGGLE_LIKE, { variables: { postId: id, text: comment.value } });
-
-  useEffect(() => {
-    slide();
-  }, [currentItem]);
+  const [addCommentMutation] = useMutation(ADD_COMMENT, { variables: { postId: id, text: comment.value } });
+  
+  useEffect(() => { slide(); });
 
   const toggleLike = async () => {
     const actualValue = isLikedS;
     setIsLiked(!isLikedS);
     setLikeCount(actualValue ? likeCountS - 1 : likeCountS + 1)
     await toggleLikeMutation();
+  }
+
+  const onKeyPress = async event => {
+    const { which } = event;
+    if (which === 13) {
+      event.preventDefault();
+      try {
+        const { data: { addComment } } = await addCommentMutation();
+        setSelfComments([...selfComments, addComment]);
+        comment.setValue('');
+      } catch {
+        toast.error('Can`t sent comment');
+      }
+     
+    }
+    return;
   }
 
   return (
@@ -55,6 +70,8 @@ const PostContainer = ({
       currentItem={currentItem}
       slide={slide}
       toggleLike={toggleLike}
+      onKeyPress={onKeyPress}
+      selfComments={selfComments}
     />
   )
 }

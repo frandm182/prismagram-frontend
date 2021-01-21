@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { gql } from 'apollo-boost';
+import { ME } from '../SharedQueries';
 import Input from './Input';
 import useInput from '../Hooks/useInput';
 import { Compass, HeartEmpty, User, Logo } from './Icons';
@@ -65,18 +65,9 @@ const HeaderLink = styled(Link)`
   }
 `;
 
-const ME = gql`
-  {
-    me {
-      userName
-    }
-  }
-`;
-
 const Header = ({ history }) => {
   const search = useInput('');
   const { data } = useQuery(ME);
-  console.log(data)
   const onSearchSubmit = e => {
     e.preventDefault();
     history.push(`/search?term=${search.value}`)
@@ -91,7 +82,11 @@ const Header = ({ history }) => {
         <HeaderColumn>
           <form onSubmit={onSearchSubmit}>
             <SearchInputContainer>
-              <Input {...search} placeholder="Search" />
+              <Input 
+                value={search.value}
+                onChange={search.onChange}
+                placeholder="Search" 
+              />
             </SearchInputContainer>
           </form>
         </HeaderColumn>
